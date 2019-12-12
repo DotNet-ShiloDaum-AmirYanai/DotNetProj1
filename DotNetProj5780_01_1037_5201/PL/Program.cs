@@ -10,6 +10,8 @@ namespace PL
     {
         static void Main(string[] args)
         {
+            Console.WriteLine();
+            Console.ReadKey();
         }
     }
 }

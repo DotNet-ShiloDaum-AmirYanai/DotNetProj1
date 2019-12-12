@@ -1,0 +1,13 @@
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\bin\Debug\netstandard2.0\BE.dll
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\bin\Debug\netstandard2.0\DS.dll
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\bin\Debug\netstandard2.0\BE.pdb
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\bin\Debug\netstandard2.0\DS.pdb
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\DAL\obj\Debug\netstandard2.0\DAL.pdb

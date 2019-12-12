@@ -40,13 +40,27 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "BE": "1.0.0"
+          "BE": "1.0.0",
+          "DS": "1.0.0"
         },
         "compile": {
           "bin/placeholder/DAL.dll": {}
         },
         "runtime": {
           "bin/placeholder/DAL.dll": {}
+        }
+      },
+      "DS/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "BE": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/DS.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DS.dll": {}
         }
       }
     }
@@ -205,6 +219,11 @@
       "type": "project",
       "path": "../DAL/DAL.csproj",
       "msbuildProject": "../DAL/DAL.csproj"
+    },
+    "DS/1.0.0": {
+      "type": "project",
+      "path": "../DS/DS.csproj",
+      "msbuildProject": "../DS/DS.csproj"
     }
   },
   "projectFileDependencyGroups": {

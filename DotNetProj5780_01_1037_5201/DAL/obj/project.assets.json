@@ -35,6 +35,19 @@
         "runtime": {
           "bin/placeholder/BE.dll": {}
         }
+      },
+      "DS/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "BE": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/DS.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DS.dll": {}
+        }
       }
     }
   },
@@ -187,11 +200,17 @@
       "type": "project",
       "path": "../BE/BE.csproj",
       "msbuildProject": "../BE/BE.csproj"
+    },
+    "DS/1.0.0": {
+      "type": "project",
+      "path": "../DS/DS.csproj",
+      "msbuildProject": "../DS/DS.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
       "BE >= 1.0.0",
+      "DS >= 1.0.0",
       "NETStandard.Library >= 2.0.3"
     ]
   },
@@ -223,6 +242,9 @@
           "projectReferences": {
             "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj": {
               "projectPath": "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj"
+            },
+            "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\DS\\DS.csproj": {
+              "projectPath": "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\DS\\DS.csproj"
             }
           }
         }
