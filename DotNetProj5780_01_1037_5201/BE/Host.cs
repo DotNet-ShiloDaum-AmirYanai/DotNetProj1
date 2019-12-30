@@ -12,6 +12,7 @@ namespace BE
         /// host's key number- string to include 0 at start or special chars
         /// host's email address
         /// Bank account details
+        /// Bank accoount number
         /// is the bank account reeady to use
         /// </summary>
         public int HostKey { private set; get; }
@@ -19,7 +20,8 @@ namespace BE
         public string LastName { private set; get; }
         public string PhoneNumber { private set; get; }
         public string Email { private set; get; }
-        public BankAccount Account { private set; get; }
+        public BankAccount BankBranchDetails { private set; get; }
+        public int AccountNumber { private set; get; }
         public bool CollectionClearance { private set; get; }
 
         public override string ToString()

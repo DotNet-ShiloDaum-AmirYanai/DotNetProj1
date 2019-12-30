@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+
+
 namespace DAL
 {
 
-    interface IDal
+    interface IDAl
     {
         /// <summary>
         /// add a guest requests
@@ -44,11 +49,47 @@ namespace DAL
         /// <param name="O">order</param>
         void UpdateOrder(BE.Order O);
 
+
+
         //get data
-        List<BE.HostingUnit> GetHostingUnits();
-        List<BE.GuestRequest> GetGuestRequests();
-        List<BE.Order> GetOrders();
-        //maybe string?
-        List<string> GetBankBranches();
+        IEnumerable<BE.HostingUnit> GetHostingUnits();
+        IEnumerable<BE.GuestRequest> GetGuestRequests();
+        IEnumerable<BE.Order> GetOrders();
+        IEnumerable<string> GetBankBranches();
+    }
+
+ 
+
+    /// <summary>
+    /// static class with ex
+    /// </summary>
+    public static class Cloning
+    {
+        public static T Copy<T>(this T source)
+        {
+            var isNotSerializable = !typeof(T).IsSerializable;
+            if (isNotSerializable)
+                throw new ArgumentException("The type must be serializable.", "source");
+
+            var sourceIsNull = ReferenceEquals(source, null);
+            if (sourceIsNull)
+                return default(T);
+
+            var formatter = new BinaryFormatter();
+            using (var stream = new MemoryStream())
+            {
+                formatter.Serialize(stream, source);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (T)formatter.Deserialize(stream);
+            }
+        }
+    }
+
+    public class FactoryDal
+    {
+        public static IDAl GetDal()
+        {
+            return new Dal_imp();
+        }
     }
 }

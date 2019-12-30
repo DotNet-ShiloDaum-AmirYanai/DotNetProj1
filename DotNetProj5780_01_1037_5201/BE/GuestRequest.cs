@@ -17,7 +17,7 @@ namespace BE
         /// number of residents: adults and children
         /// requested pool, hot tub, garden and children attraction
         /// </summary>
-        public int GuestRequestKey { private set; get; }
+        public int GuestRequestKey { set; get; }
         public Guest GuestPersonalDetails { private set; get; }
         public DemandStatusTypes Status { private set; get; }
         public DateTime RegistrationDate { private set; get; }
