@@ -7,10 +7,14 @@ using BE;
 
 namespace DAL
 {
-
-
-    class Dal_imp : IDAL
+    sealed class Dal_imp : IDAL
     {
+        private static readonly Dal_imp instance = new Dal_imp();
+
+        public static Dal_imp Instance { get => instance; }
+
+        static Dal_imp() {}
+
         public void AddGuestRequest(GuestRequest GR)
         {
             if (GR.GuestRequestKey != 0)
@@ -83,7 +87,7 @@ namespace DAL
         {
             bool flag = DS.DataSource.DSHostingUnits.Remove(HU);
             if (!flag)
-                throw new DalExeptionHostingUnitDontExict();
+                throw new DalExeptionHostingUnitDoesNotExist();
         }
 
         #region gets functions
@@ -135,8 +139,8 @@ namespace DAL
         public void UpdateHostingUnit(HostingUnit HU)
         {
             int count = DS.DataSource.DSHostingUnits.RemoveAll(t => t.HostingUnitKey == HU.HostingUnitKey);
-            if (count==0)
-                throw new Da
+            if (count == 0)
+                throw new DalExeptionHUDoesnotexist();
             AddHostingUnit(HU);
         }
 

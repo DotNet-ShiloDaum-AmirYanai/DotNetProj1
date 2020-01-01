@@ -64,7 +64,7 @@ namespace BL
             {
                 dal.DelHostingUnit(HU);
             }
-            catch (DalExeptionHostingUnitDontExict)
+            catch (DalExeptionHostingUnitDoesNotExist)
             {
 
                 throw new BlExeptionHostingUnitDontExict();

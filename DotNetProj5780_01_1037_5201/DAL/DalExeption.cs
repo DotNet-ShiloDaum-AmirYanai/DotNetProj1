@@ -12,15 +12,16 @@ namespace DAL
     {
         public DalExeptionIdDoesnotexist() { }
     }
+    public class DalExeptionHUDoesnotexist : Exception
+    {
+        public DalExeptionHUDoesnotexist() { }
+    }
     public class DalExceptionInValidKey : Exception
     {
         public DalExceptionInValidKey() { }
     }
-    public class DalExeptionHostingUnitDontExict : Exception
+    public class DalExeptionHostingUnitDoesNotExist : Exception
     {
-        public DalExeptionHostingUnitDontExict() { }
+        public DalExeptionHostingUnitDoesNotExist() { }
     }
-
-
-    
 }
