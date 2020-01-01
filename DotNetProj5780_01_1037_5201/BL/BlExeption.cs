@@ -4,27 +4,27 @@ using System.Text;
 
 namespace BL
 {
-    public class BlExeptionIdalreadyExist : Exception
+    public class BLExeptionIdalreadyExist : Exception
     {
-        public BlExeptionIdalreadyExist() { }
+        public BLExeptionIdalreadyExist() { }
     }
 
-    public class BlExeptionDateIncorrect : Exception
+    public class BLExeptionDateIncorrect : Exception
     {
-        public BlExeptionDateIncorrect() { }
+        public BLExeptionDateIncorrect() { }
     }
 
-    public class BlExeptionInvalidKey : Exception
+    public class BLExeptionInvalidKey : Exception
     {
-        public BlExeptionInvalidKey() { }
+        public BLExeptionInvalidKey() { }
     }
-    public class BLExeptionIdDoesnotexist : Exception
+    public class BLExeptionIdDoesNotExist : Exception
     {
-        public BLExeptionIdDoesnotexist() { }
+        public BLExeptionIdDoesNotExist() { }
     }
-    public class BlExeptionHostingUnitDoesntExict : Exception
+    public class BLExeptionHostingUnitDoesNotExist : Exception
     {
-        public BlExeptionHostingUnitDoesntExict() { }
+        public BLExeptionHostingUnitDoesNotExist() { }
     }
 }
 

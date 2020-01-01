@@ -1,5 +1,4 @@
-﻿using BE;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +15,7 @@ namespace BL
         /// update a guest requests
         /// </summary>
         /// <param name="GR">the Guest request</param>
-        void UpdateGuestRequest(DemandStatusTypes status, int key);
+        void UpdateGuestRequest(BE.DemandStatusTypes status, int key);
 
         /// <summary>
         /// add a hosting unit
@@ -45,6 +44,12 @@ namespace BL
         /// <param name="O">order</param>
         void UpdateOrder(BE.Order O);
 
+        IEnumerable<BE.HostingUnit> AvailableInDates(DateTime date, int VacationLen);
+        int DaysPassed(DateTime date1, DateTime date2);
+
+        int DaysPassed(DateTime date1);
+
+        IEnumerable<BE.Order> OrdersFromDays(int numOfDays);
 
 
         //get data

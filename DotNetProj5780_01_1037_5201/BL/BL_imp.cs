@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BE;
-using DAL;
 
 namespace BL
 {
@@ -20,11 +18,11 @@ namespace BL
                 }
                 catch (DalExeptionIdalreadyExist)
                 {
-                    throw new BlExeptionIdalreadyExist();
+                    throw new BLExeptionIdalreadyExist();
                 }
             }
             else
-                throw new BlExeptionDateIncorrect();
+                throw new BLExeptionDateIncorrect();
         }
 
         void UpdateGuestRequest(DemandStatusTypes status, int key)
@@ -39,7 +37,7 @@ namespace BL
             }
             catch (DalExeptionIdDoesnotexist)
             {
-                throw new BLExeptionIdDoesnotexist();
+                throw new BLExeptionIdDoesNotExist();
             }
         }
         #endregion
@@ -53,7 +51,7 @@ namespace BL
             }
             catch(DalExeptionIdalreadyExist)
             {
-                throw new BlExeptionIdalreadyExist();
+                throw new BLExeptionIdalreadyExist();
             }         
         }
 
@@ -67,7 +65,7 @@ namespace BL
             catch (DalExeptionHostingUnitDoesNotExist)
             {
 
-                throw new BlExeptionHostingUnitDontExict();
+                throw new BLExeptionHostingUnitDoesNotExist();
             }
         }
 
@@ -76,14 +74,14 @@ namespace BL
         #endregion
 
 
-
+        #region Order functions
         void AddOrder(BE.Order O);
         /// <summary>
         /// update an order usually the order status is updated
         /// </summary>
         /// <param name="O">order</param>
         void UpdateOrder(BE.Order O);
-
+        #endregion
 
 
         //get data
@@ -92,52 +90,52 @@ namespace BL
         IEnumerable<BE.Order> GetOrders();
         IEnumerable<string> GetBankBranches();
 
-        void IBL.AddGuestRequest(GuestRequest GR)
+        void IBL.AddGuestRequest(BE.GuestRequest GR)
         {
             throw new NotImplementedException();
         }
 
-        void IBL.UpdateGuestRequest(DemandStatusTypes status, int key)
+        void IBL.UpdateGuestRequest(BE.DemandStatusTypes status, int key)
         {
             throw new NotImplementedException();
         }
 
-        void IBL.AddHostingUnit(HostingUnit HU)
+        void IBL.AddHostingUnit(BE.HostingUnit HU)
         {
             throw new NotImplementedException();
         }
 
-        void IBL.DelHostingUnit(HostingUnit HU)
+        void IBL.DelHostingUnit(BE.HostingUnit HU)
         {
             throw new NotImplementedException();
         }
 
-        void IBL.UpdateHostingUnit(HostingUnit HU)
+        void IBL.UpdateHostingUnit(BE.HostingUnit HU)
         {
             throw new NotImplementedException();
         }
 
-        void IBL.AddOrder(Order O)
+        void IBL.AddOrder(BE.Order O)
         {
             throw new NotImplementedException();
         }
 
-        void IBL.UpdateOrder(Order O)
+        void IBL.UpdateOrder(BE.Order O)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<HostingUnit> IBL.GetHostingUnits()
+        IEnumerable<BE.HostingUnit> IBL.GetHostingUnits()
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<GuestRequest> IBL.GetGuestRequests()
+        IEnumerable<BE.GuestRequest> IBL.GetGuestRequests()
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Order> IBL.GetOrders()
+        IEnumerable<BE.Order> IBL.GetOrders()
         {
             throw new NotImplementedException();
         }
@@ -146,5 +144,21 @@ namespace BL
         {
             throw new NotImplementedException();
         }
+
+        IEnumerable<BE.HostingUnit> AvailableInDates(DateTime date, int VacationLen)
+        {
+            throw new NotImplementedException();
+
+        }
+        int DaysPassed(DateTime date1, DateTime date2)
+        {
+            throw new NotImplementedException();
+        }
+        
+        int DaysPassed(DateTime date1)
+        {
+            return DaysPassed(date1,DateTime.Now);
+        }
+
     }
 }
