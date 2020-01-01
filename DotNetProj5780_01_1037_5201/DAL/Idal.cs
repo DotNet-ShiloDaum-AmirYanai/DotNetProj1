@@ -87,10 +87,9 @@ namespace DAL
 
     public class FactoryDal
     {
-
         public static IDAL GetDal()
         {
-            return new Dal_imp();
+            return Dal_imp.Instance;
         }
     }
 }
