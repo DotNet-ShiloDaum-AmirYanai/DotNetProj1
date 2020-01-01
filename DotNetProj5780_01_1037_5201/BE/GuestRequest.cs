@@ -19,7 +19,7 @@ namespace BE
         /// </summary>
         public int GuestRequestKey { set; get; }
         public Guest GuestPersonalDetails { private set; get; }
-        public DemandStatusTypes Status { private set; get; }
+        public DemandStatusTypes Status {  set; get; }
         public DateTime RegistrationDate { private set; get; }
         public DateTime EntryDate { private set; get; }
         public DateTime ReleaseDate { private set; get; }

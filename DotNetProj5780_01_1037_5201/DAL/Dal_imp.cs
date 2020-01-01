@@ -4,28 +4,29 @@ using System.Linq;
 using System.Text;
 using BE;
 
+
 namespace DAL
 {
-   
 
-    class Dal_imp : IDAl
+
+    class Dal_imp : IDAL
     {
         public void AddGuestRequest(GuestRequest GR)
         {
             if (GR.GuestRequestKey != 0)
             {
                 if (!GuestValidate(GR))
-                    throw new ArgumentException("This id already exsist");
+                    throw new DalExeptionIdalreadyExist();
             }
             else
             {
                 GR.GuestRequestKey = BE.Configuration.getGRKey();
             }
-            DS.DataSource.DSGuestRequests.Add(GR.Copy());               
+            DS.DataSource.DSGuestRequests.Add(GR.Copy());
         }
         private bool GuestValidate(GuestRequest GR)
         {
-            bool exists=false;
+            bool exists = false;
             foreach (GuestRequest item in DS.DataSource.DSGuestRequests)
             {
                 //this person had a previous Request
@@ -41,8 +42,8 @@ namespace DAL
         {
             if (HU.HostingUnitKey != 0)
             {
-               if (!HUValidate(HU))
-                    throw new ArgumentException("This Hosting Unit already exsist");
+                if (!HUValidate(HU))
+                    throw new DalExeptionIdalreadyExist();
             }
             else
             {
@@ -52,17 +53,10 @@ namespace DAL
         }
         private bool HUValidate(HostingUnit HU)
         {
-            bool exists = false;
-            foreach (HostingUnit item in DS.DataSource.DSHostingUnits)
-            {
-                //this person had a previous Request
-                if (item.HostingUnitKey == (HU.HostingUnitKey))
-                {
-                    exists = true;
-                }
-            }
-            //if does not exists
-            return !exists;
+            int count = (from item in DS.DataSource.DSHostingUnits
+                         where item.HostingUnitKey == HU.HostingUnitKey
+                         select item).Count();
+            return count == 0 ? true : false;
         }
         public void AddOrder(Order O)
         {
@@ -87,14 +81,15 @@ namespace DAL
 
         public void DelHostingUnit(HostingUnit HU)
         {
-            bool flag =DS.DataSource.DSHostingUnits.Remove(HU);
+            bool flag = DS.DataSource.DSHostingUnits.Remove(HU);
             if (!flag)
-                throw new ArgumentException("This HostingUnit you try to delete didn't exict");
+                throw new DalExeptionHostingUnitDontExict();
         }
 
+        #region gets functions
         public IEnumerable<string> GetBankBranches()
         {
-            List<string> branches=new List<string>();
+            List<string> branches = new List<string>();
             //arbitary data
             branches.Add("Pepper bank: 10, 101");
             branches.Add("Poalim bank: 9, 25");
@@ -106,8 +101,8 @@ namespace DAL
 
         public IEnumerable<GuestRequest> GetGuestRequests()
         {
-            return from GuestRequest in DS.DataSource.DSGuestRequests
-                   select GuestRequest.Copy();
+            return (from GuestRequest in DS.DataSource.DSGuestRequests
+                   select GuestRequest.Copy()).ToList();
         }
 
         public IEnumerable<HostingUnit> GetHostingUnits()
@@ -121,20 +116,28 @@ namespace DAL
             return from DSOrders in DS.DataSource.DSOrders
                    select DSOrders.Copy();
         }
+        #endregion
 
-        public void UpdateGuestRequest(GuestRequest GR)
+        public void UpdateGuestRequest(DemandStatusTypes status, int key)
         {
-            throw new NotImplementedException();
+            if (key < 10000000)
+                throw new DalExceptionInValidKey();
+            var GR = from GuestRequest in DS.DataSource.DSGuestRequests
+                     where GuestRequest.GuestRequestKey == key
+                     select GuestRequest;
+            int count= DS.DataSource.DSGuestRequests.RemoveAll(t=> t.GuestRequestKey== key);
+            if (count == 0)
+                throw new DalExeptionIdDoesnotexist();
+            GR.ToList()[0].Status = status;
+            AddGuestRequest(GR.ToList()[0]);
         }
 
         public void UpdateHostingUnit(HostingUnit HU)
         {
-            var keys= from item in DS.DataSource.DSHostingUnits
-            let key= HU.HostingUnitKey
-            where key == item.HostingUnitKey
-            select new {_HH= item };
-           
-            int count = DS.DataSource.DSHostingUnits.Remove( );
+            int count = DS.DataSource.DSHostingUnits.RemoveAll(t => t.HostingUnitKey == HU.HostingUnitKey);
+            if (count==0)
+                throw new Da
+            AddHostingUnit(HU);
         }
 
         public void UpdateOrder(Order O)

@@ -4,12 +4,12 @@ using System.Text;
 
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-
+using BE;
 
 namespace DAL
 {
 
-    interface IDAl
+    public interface IDAL
     {
         /// <summary>
         /// add a guest requests
@@ -20,7 +20,7 @@ namespace DAL
         /// update a guest requests
         /// </summary>
         /// <param name="GR">the Guest request</param>
-        void UpdateGuestRequest(BE.GuestRequest GR);
+        void UpdateGuestRequest(DemandStatusTypes status, int key);
 
         /// <summary>
         /// add a hosting unit
@@ -87,7 +87,8 @@ namespace DAL
 
     public class FactoryDal
     {
-        public static IDAl GetDal()
+
+        public static IDAL GetDal()
         {
             return new Dal_imp();
         }
