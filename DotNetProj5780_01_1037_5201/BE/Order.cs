@@ -22,7 +22,7 @@ namespace BE
         public int GuestRequestKey { private set; get; }
         public GuestRequest ItsGuestRequest { private set; get; }
         public int OrderKey { private set; get; }
-        public OrderStatusTypes OrderStatus { private set; get; }
+        public OrderStatusTypes OrderStatus { set; get; }
         public DateTime CreateDate { private set; get; }
         public DateTime CreateOrderDate { private set; get; }
         public override string ToString()
