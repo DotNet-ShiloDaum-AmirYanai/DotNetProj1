@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BL
 {
-    public class BL_imp: IBL
+    public class BL_imp : IBL
     {
         DAL.IDAL dal= DAL.FactoryDal.GetDal();
 
@@ -16,28 +16,28 @@ namespace BL
                 {
                     dal.AddGuestRequest(GR);
                 }
-                catch (DalExeptionIdalreadyExist)
+                catch (DAL.DalExeptionIdalreadyExist)
                 {
-                    throw new BLExeptionIdalreadyExist();
+                    throw new BL.BLExceptionIdalreadyExist();
                 }
             }
             else
-                throw new BLExeptionDateIncorrect();
+                throw new BLExceptionDateIncorrect();
         }
 
-        void UpdateGuestRequest(DemandStatusTypes status, int key)
+        void UpdateGuestRequest(BE.DemandStatusTypes status, int key)
         {
             try
             {
                 dal.UpdateGuestRequest(status, key);
             }
-            catch (DalExceptionInValidKey)
+            catch (DAL.DalExceptionInValidKey)
             {
-                throw new BlExeptionInvalidKey();
+                throw new BL.BLExceptionInvalidKey();
             }
-            catch (DalExeptionIdDoesnotexist)
+            catch (DAL.DalExeptionIdDoesnotexist)
             {
-                throw new BLExeptionIdDoesNotExist();
+                throw new BL.BLExceptionIdDoesNotExist();
             }
         }
         #endregion
@@ -49,9 +49,9 @@ namespace BL
             {
                 dal.AddHostingUnit(HU);
             }
-            catch(DalExeptionIdalreadyExist)
+            catch(DAL.DalExeptionIdalreadyExist)
             {
-                throw new BLExeptionIdalreadyExist();
+                throw new BL.BLExceptionIdalreadyExist();
             }         
         }
 
@@ -62,33 +62,54 @@ namespace BL
             {
                 dal.DelHostingUnit(HU);
             }
-            catch (DalExeptionHostingUnitDoesNotExist)
+            catch (DAL.DalExeptionHostingUnitDoesNotExist)
             {
 
-                throw new BLExeptionHostingUnitDoesNotExist();
+                throw new BL.BLExceptionHostingUnitDoesNotExist();
             }
         }
 
-        void UpdateHostingUnit(BE.HostingUnit HU);
+        void UpdateHostingUnit(BE.HostingUnit HU)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
 
         #region Order functions
-        void AddOrder(BE.Order O);
+        void AddOrder(BE.Order O)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// update an order usually the order status is updated
         /// </summary>
         /// <param name="O">order</param>
-        void UpdateOrder(BE.Order O);
+        void UpdateOrder(BE.Order O)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
 
         //get data
-        IEnumerable<BE.HostingUnit> GetHostingUnits();
-        IEnumerable<BE.GuestRequest> GetGuestRequests();
-        IEnumerable<BE.Order> GetOrders();
-        IEnumerable<string> GetBankBranches();
+        IEnumerable<BE.HostingUnit> GetHostingUnits()
+        {
+            throw new NotImplementedException();
+        }
+        IEnumerable<BE.GuestRequest> GetGuestRequests()
+        {
+            throw new NotImplementedException();
+        }
+        IEnumerable<BE.Order> GetOrders()
+        {
+            throw new NotImplementedException();
+        }
+        IEnumerable<string> GetBankBranches()
+        {
+            throw new NotImplementedException();
+        }
 
         void IBL.AddGuestRequest(BE.GuestRequest GR)
         {
@@ -160,5 +181,30 @@ namespace BL
             return DaysPassed(date1,DateTime.Now);
         }
 
+        IEnumerable<BE.HostingUnit> IBL.AvailableInDates(DateTime date, int VacationLen)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IBL.DaysPassed(DateTime date1, DateTime date2)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IBL.DaysPassed(DateTime date1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<BE.Order> OrdersFromDays(int numOfDays)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        IEnumerable<BE.Order> IBL.OrdersFromDays(int numOfDays)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
