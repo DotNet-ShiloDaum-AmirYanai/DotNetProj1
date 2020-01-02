@@ -42,6 +42,21 @@ namespace BL
     {
         public BLExceptionTheOrderIsClose() { }
     }
+    public class BLExceptionTheHostUnitHasOpenOrders : BLException
+    {
+        public BLExceptionTheHostUnitHasOpenOrders() { }
+    }
+    public class BLExceptionTheOrderDateAreOccupied : BLException
+    {
+        public BLExceptionTheOrderDateAreOccupied() { }
+    }
+    public class BLExceptionTheEmailIsInvalid : BLException
+    {
+        public BLExceptionTheEmailIsInvalid() { }
+    }
+
+
+    
 }
 
 

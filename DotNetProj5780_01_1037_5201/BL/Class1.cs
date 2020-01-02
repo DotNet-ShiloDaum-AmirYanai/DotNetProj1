@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BL
 {
@@ -12,6 +13,9 @@ namespace BL
         #region Guest Request functions
         void AddGuestRequest(BE.GuestRequest GR)
         {
+            if (!ValidateEmail(GR.GuestPersonalDetails.Email))
+                throw new BLExceptionTheEmailIsInvalid();
+
             if (GR.EntryDate < GR.ReleaseDate)
             {
                 try
@@ -44,6 +48,16 @@ namespace BL
         }
         #endregion
 
+        private bool ValidateEmail(string emailAddress)
+        {
+            var regex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"  + "@"
+                             + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+
+            bool isValid = Regex.IsMatch(emailAddress, regex, RegexOptions.IgnoreCase);
+            return isValid;
+        }
+
+
         #region Hosting unit functions
         void AddHostingUnit(BE.HostingUnit HU)
         {
@@ -59,7 +73,12 @@ namespace BL
 
         void DelHostingUnit(BE.HostingUnit HU)
         {
+            List<BE.Order> orders= DS.DataSource.DSOrders.FindAll(order => order.HostingUnitKey == HU.HostingUnitKey);
 
+            // maybe we need to check more statuses
+            int check = orders.FindIndex(order => order.OrderStatus == BE.OrderStatusTypes.NotHandled || order.OrderStatus == BE.OrderStatusTypes.EmailSent);
+            if (check > 0)
+                throw new BLExceptionTheHostUnitHasOpenOrders();
             try
             {
                 dal.DelHostingUnit(HU);
@@ -89,8 +108,18 @@ namespace BL
         #region Order functions
         void AddOrder(BE.Order O)
         {
+            BE.HostingUnit HU = DS.DataSource.DSHostingUnits.Find(t => t.HostingUnitKey == O.HostingUnitKey);
+            BE.GuestRequest GR = DS.DataSource.DSGuestRequests.Find(t => t.GuestRequestKey == O.GuestRequestKey);
 
-            throw new NotImplementedException();
+            for (int month = GR.EntryDate.Month; month <= GR.ReleaseDate.Month; month++)
+            {
+                for (int day = GR.EntryDate.Day; (day < 31) || (month == GR.ReleaseDate.Month && day > GR.ReleaseDate.Day); day++)
+                {
+                    if (HU.Calendar[month, day] != false)
+                        throw new BLExceptionTheOrderDateAreOccupied();
+                }
+            }
+
         }
 
 
@@ -105,12 +134,11 @@ namespace BL
             BE.Order O = DS.DataSource.DSOrders[ind];
 
             if (O.OrderStatus != BE.OrderStatusTypes.AnsweredClose)
-            {  
+            {
+                BE.HostingUnit HU = DS.DataSource.DSHostingUnits.Find(t => t.HostingUnitKey == O.HostingUnitKey);
                 if (status == BE.OrderStatusTypes.EmailSent)
                 {   
-                    BE.HostingUnit owner = DS.DataSource.DSHostingUnits.Find(t => t.HostingUnitKey == O.HostingUnitKey);
-
-                    if (owner.Owner.CollectionClearance != true)
+                    if (HU.Owner.CollectionClearance != true)
                         throw new BLExceptionNoSignedAuthorization();
                     
                     //send an email
@@ -118,7 +146,20 @@ namespace BL
 
                 if (status == BE.OrderStatusTypes.AnsweredClose)
                 {
-                    
+                    BE.GuestRequest GR= DS.DataSource.DSGuestRequests.Find(t => t.GuestRequestKey == O.GuestRequestKey);    
+                    int days = DaysPassed(GR.EntryDate, GR.ReleaseDate);
+                   //we need to done the fee funtions
+                    double fee = days * BE.Configuration.Fee;
+
+                    for (int month = GR.EntryDate.Month; month <= GR.ReleaseDate.Month; month++)
+                    {
+                        for (int day = GR.EntryDate.Day; (day < 31) || (month== GR.ReleaseDate.Month && day> GR.ReleaseDate.Day) ; day++)
+                        {
+                            HU.Calendar[month, day] = true;
+                        }
+                    } 
+
+                    UpdateGuestRequest(BE.DemandStatusTypes.DealClosed, GR.GuestRequestKey);
                 }
             }
             else
