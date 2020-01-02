@@ -42,8 +42,9 @@ namespace BL
         /// update an order usually the order status is updated
         /// </summary>
         /// <param name="O">order</param>
-        void UpdateOrder(BE.Order O);
-
+        /// 
+        //void UpdateOrder(BE.Order O);
+        void UpdateOrder(BE.OrderStatusTypes status, int key);
         IEnumerable<BE.HostingUnit> AvailableInDates(DateTime date, int VacationLen);
         int DaysPassed(DateTime date1, DateTime date2);
 

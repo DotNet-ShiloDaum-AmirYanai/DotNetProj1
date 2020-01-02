@@ -18,6 +18,7 @@ namespace BE
         /// requested pool, hot tub, garden and children attraction
         /// </summary>
         public int GuestRequestKey { set; get; }
+        public double Totalcomission { set; get; }
         public Guest GuestPersonalDetails { private set; get; }
         public DemandStatusTypes Status {  set; get; }
         public DateTime RegistrationDate { private set; get; }

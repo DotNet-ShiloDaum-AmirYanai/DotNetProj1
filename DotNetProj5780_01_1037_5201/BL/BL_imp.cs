@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BL
 {
@@ -13,11 +14,14 @@ namespace BL
         #region Guest Request functions
         public void AddGuestRequest(BE.GuestRequest GR)
         {
+            if (!ValidateEmail(GR.GuestPersonalDetails.Email))
+                throw new BLExceptionTheEmailIsInvalid();
+
             if (GR.EntryDate < GR.ReleaseDate)
             {
                 try
                 {
-                    Dal.AddGuestRequest(GR);
+                    dal.AddGuestRequest(GR);
                 }
                 catch (DAL.DALExceptionIdalreadyExist)
                 {
@@ -32,18 +36,27 @@ namespace BL
         {
             try
             {
-                Dal.UpdateGuestRequest(status, key);
+                dal.UpdateGuestRequest(status, key);
             }
             catch (DAL.DALExceptionInValidKey)
             {
                 throw new BL.BLExceptionInvalidKey();
             }
-            catch (DAL.DALExceptionIdDoesnotexist)
+            catch (DAL.DALExceptionHUDoesnotexist)
             {
                 throw new BL.BLExceptionIdDoesNotExist();
             }
         }
         #endregion
+
+        private bool ValidateEmail(string emailAddress)
+        {
+            var regex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*" + "@"
+                             + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+
+            bool isValid = Regex.IsMatch(emailAddress, regex, RegexOptions.IgnoreCase);
+            return isValid;
+        }
 
 
         #region Hosting unit functions
@@ -53,49 +66,110 @@ namespace BL
             {
                 dal.AddHostingUnit(HU);
             }
-            catch(DAL.DALExceptionIdalreadyExist)
+            catch (DAL.DALExceptionIdalreadyExist)
             {
                 throw new BL.BLExceptionIdalreadyExist();
-            }         
+            }
         }
 
         public void DelHostingUnit(BE.HostingUnit HU)
         {
+            List<BE.Order> orders = DS.DataSource.DSOrders.FindAll(order => order.HostingUnitKey == HU.HostingUnitKey);
 
+            // maybe we need to check more statuses
+            int check = orders.FindIndex(order => order.OrderStatus == BE.OrderStatusTypes.NotHandled || order.OrderStatus == BE.OrderStatusTypes.EmailSent);
+            if (check > 0)
+                throw new BLExceptionTheHostUnitHasOpenOrders();
             try
             {
                 dal.DelHostingUnit(HU);
             }
             catch (DAL.DALExceptionHostingUnitDoesNotExist)
             {
-
                 throw new BL.BLExceptionHostingUnitDoesNotExist();
             }
         }
 
         public void UpdateHostingUnit(BE.HostingUnit HU)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                dal.UpdateHostingUnit(HU);
+            }
+            catch (DAL.DALExceptionHUDoesnotexist)
+            {
+
+                throw new BLExceptionHostingUnitDoesNotExist();
+            }
         }
 
         #endregion
-
 
         #region Order functions
-        void IBL.AddOrder(BE.Order O)
+        public void AddOrder(BE.Order O)
         {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// update an order usually the order status is updated
-        /// </summary>
-        /// <param name="O">order</param>
-        void IBL.UpdateOrder(BE.Order O)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
+            BE.HostingUnit HU = DS.DataSource.DSHostingUnits.Find(t => t.HostingUnitKey == O.HostingUnitKey);
+            BE.GuestRequest GR = DS.DataSource.DSGuestRequests.Find(t => t.GuestRequestKey == O.GuestRequestKey);
 
+            for (int month = GR.EntryDate.Month; month <= GR.ReleaseDate.Month; month++)
+            {
+                for (int day = GR.EntryDate.Day; (day < 31) || (month == GR.ReleaseDate.Month && day > GR.ReleaseDate.Day); day++)
+                {
+                    if (HU.Calendar[month, day] != false)
+                        throw new BLExceptionTheOrderDateAreOccupied();
+                }
+            }
+
+        }
+
+
+        public void UpdateOrder(BE.OrderStatusTypes status, int key)
+        {
+            if (key < 10000000)
+                throw new BLExceptionInvalidKey();
+
+            int ind = DS.DataSource.DSOrders.FindIndex(t => t.OrderKey == key);
+            if (ind < 0)
+                throw new BLExceptionKeyDoesNotExist();
+            BE.Order O = DS.DataSource.DSOrders[ind];
+
+            if (O.OrderStatus != BE.OrderStatusTypes.AnsweredClose)
+            {
+                BE.HostingUnit HU = DS.DataSource.DSHostingUnits.Find(t => t.HostingUnitKey == O.HostingUnitKey);
+                if (status == BE.OrderStatusTypes.EmailSent)
+                {
+                    if (HU.Owner.CollectionClearance != true)
+                        throw new BLExceptionNoSignedAuthorization();
+
+                    //send an email
+                }
+
+                if (status == BE.OrderStatusTypes.AnsweredClose)
+                {
+                    BE.GuestRequest GR = DS.DataSource.DSGuestRequests.Find(t => t.GuestRequestKey == O.GuestRequestKey);
+                    int days = DaysPassed(GR.EntryDate, GR.ReleaseDate);
+
+                    double fee = days * BE.Configuration.Fee;
+                    GR.Totalcomission = fee;
+
+                    for (int month = GR.EntryDate.Month; month <= GR.ReleaseDate.Month; month++)
+                    {
+                        for (int day = GR.EntryDate.Day; (day < 31) || (month == GR.ReleaseDate.Month && day > GR.ReleaseDate.Day); day++)
+                        {
+                            HU.Calendar[month, day] = true;
+                        }
+                    }
+
+                    UpdateGuestRequest(BE.DemandStatusTypes.DealClosed, GR.GuestRequestKey);
+                }
+            }
+            else
+                throw new BLExceptionTheOrderIsClose();
+
+        }
+
+        #endregion
 
         //getters
         public IEnumerable<BE.HostingUnit> GetHostingUnits()
