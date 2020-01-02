@@ -30,5 +30,19 @@ namespace BL
     {
         public BLExceptionHostingUnitDoesNotExist() { }
     }
+    public class BLExceptionKeyDoesNotExist : BLException
+    {
+        public BLExceptionKeyDoesNotExist() { }
+    }
+    public class BLExceptionNoSignedAuthorization : BLException
+    {
+        public BLExceptionNoSignedAuthorization() { }
+    }
+    public class BLExceptionTheOrderIsClose : BLException
+    {
+        public BLExceptionTheOrderIsClose() { }
+    }
 }
+
+
 
