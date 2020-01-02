@@ -51,6 +51,21 @@ namespace BL
 
         IEnumerable<BE.Order> OrdersFromDays(int numOfDays);
 
+        IEnumerable<BE.GuestRequest> GuestRequestRequirements(Delegate req);
+
+        int NumOfGuestOrders(BE.GuestRequest gr);
+
+        int NumOfHUClosedOrders(BE.HostingUnit hu);
+
+        IEnumerable<BE.GuestRequest> GroupGRByArea();
+        
+        IEnumerable<BE.GuestRequest> GroupByVactionNum();
+        
+        IEnumerable<BE.Host> GroupByHUNum();
+
+        IEnumerable<BE.HostingUnit> GroupHUByArea();
+
+
 
         //get data
         IEnumerable<BE.HostingUnit> GetHostingUnits();

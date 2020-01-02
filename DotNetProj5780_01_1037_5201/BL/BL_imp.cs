@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using BE;
 
 namespace BL
 {
     public class BL_imp : IBL
     {
-        DAL.IDAL dal= DAL.FactoryDal.GetDal();
+        readonly DAL.IDAL dal= DAL.FactoryDal.GetDal();
+
+        DAL.IDAL Dal { get=>dal; }
 
         #region Guest Request functions
-        void AddGuestRequest(BE.GuestRequest GR)
+        public void AddGuestRequest(BE.GuestRequest GR)
         {
             if (GR.EntryDate < GR.ReleaseDate)
             {
                 try
                 {
-                    dal.AddGuestRequest(GR);
+                    Dal.AddGuestRequest(GR);
                 }
-                catch (DAL.DalExeptionIdalreadyExist)
+                catch (DAL.DALExceptionIdalreadyExist)
                 {
                     throw new BL.BLExceptionIdalreadyExist();
                 }
@@ -25,51 +29,52 @@ namespace BL
                 throw new BLExceptionDateIncorrect();
         }
 
-        void UpdateGuestRequest(BE.DemandStatusTypes status, int key)
+        public void UpdateGuestRequest(BE.DemandStatusTypes status, int key)
         {
             try
             {
-                dal.UpdateGuestRequest(status, key);
+                Dal.UpdateGuestRequest(status, key);
             }
-            catch (DAL.DalExceptionInValidKey)
+            catch (DAL.DALExceptionInValidKey)
             {
                 throw new BL.BLExceptionInvalidKey();
             }
-            catch (DAL.DalExeptionIdDoesnotexist)
+            catch (DAL.DALExceptionIdDoesnotexist)
             {
                 throw new BL.BLExceptionIdDoesNotExist();
             }
         }
         #endregion
 
+
         #region Hosting unit functions
-        void AddHostingUnit(BE.HostingUnit HU)
+        public void AddHostingUnit(BE.HostingUnit HU)
         {
             try
             {
                 dal.AddHostingUnit(HU);
             }
-            catch(DAL.DalExeptionIdalreadyExist)
+            catch(DAL.DALExceptionIdalreadyExist)
             {
                 throw new BL.BLExceptionIdalreadyExist();
             }         
         }
 
-        void DelHostingUnit(BE.HostingUnit HU)
+        public void DelHostingUnit(BE.HostingUnit HU)
         {
 
             try
             {
                 dal.DelHostingUnit(HU);
             }
-            catch (DAL.DalExeptionHostingUnitDoesNotExist)
+            catch (DAL.DALExceptionHostingUnitDoesNotExist)
             {
 
                 throw new BL.BLExceptionHostingUnitDoesNotExist();
             }
         }
 
-        void UpdateHostingUnit(BE.HostingUnit HU)
+        public void UpdateHostingUnit(BE.HostingUnit HU)
         {
             throw new NotImplementedException();
         }
@@ -78,7 +83,7 @@ namespace BL
 
 
         #region Order functions
-        void AddOrder(BE.Order O)
+        void IBL.AddOrder(BE.Order O)
         {
             throw new NotImplementedException();
         }
@@ -86,115 +91,61 @@ namespace BL
         /// update an order usually the order status is updated
         /// </summary>
         /// <param name="O">order</param>
-        void UpdateOrder(BE.Order O)
+        void IBL.UpdateOrder(BE.Order O)
         {
             throw new NotImplementedException();
         }
         #endregion
 
 
-        //get data
-        IEnumerable<BE.HostingUnit> GetHostingUnits()
+        //getters
+        public IEnumerable<BE.HostingUnit> GetHostingUnits()
         {
-            throw new NotImplementedException();
+            return Dal.GetHostingUnits();
         }
-        IEnumerable<BE.GuestRequest> GetGuestRequests()
+        public IEnumerable<BE.GuestRequest> GetGuestRequests()
         {
-            throw new NotImplementedException();
+            return Dal.GetGuestRequests();
         }
-        IEnumerable<BE.Order> GetOrders()
+        public IEnumerable<BE.Order> GetOrders()
         {
-            throw new NotImplementedException();
+            return Dal.GetOrders();
         }
-        IEnumerable<string> GetBankBranches()
+        public IEnumerable<string> GetBankBranches()
         {
-            throw new NotImplementedException();
-        }
-
-        void IBL.AddGuestRequest(BE.GuestRequest GR)
-        {
-            throw new NotImplementedException();
+            return Dal.GetBankBranches();
         }
 
-        void IBL.UpdateGuestRequest(BE.DemandStatusTypes status, int key)
+
+        public IEnumerable<BE.HostingUnit> AvailableInDates(DateTime date, int len)
         {
-            throw new NotImplementedException();
+            var availables = from HU in GetHostingUnits()
+            where HU.Available(date,len)
+            select HU;
+
+            return availables;
         }
 
-        void IBL.AddHostingUnit(BE.HostingUnit HU)
+        public int DaysPassed(DateTime date1, DateTime date2)
         {
-            throw new NotImplementedException();
-        }
-
-        void IBL.DelHostingUnit(BE.HostingUnit HU)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IBL.UpdateHostingUnit(BE.HostingUnit HU)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IBL.AddOrder(BE.Order O)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IBL.UpdateOrder(BE.Order O)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<BE.HostingUnit> IBL.GetHostingUnits()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<BE.GuestRequest> IBL.GetGuestRequests()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<BE.Order> IBL.GetOrders()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<string> IBL.GetBankBranches()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<BE.HostingUnit> AvailableInDates(DateTime date, int VacationLen)
-        {
-            throw new NotImplementedException();
-
-        }
-        int DaysPassed(DateTime date1, DateTime date2)
-        {
-            throw new NotImplementedException();
+            int count = 0;
+            if (date2 < date1)
+            {
+                throw new BLExceptionDateIncorrect();
+            }
+            for (DateTime date = date1; date < date2; date=date.AddDays(1))
+            {
+                count++;
+            }
+            return count;
         }
         
-        int DaysPassed(DateTime date1)
+        public int DaysPassed(DateTime date1)
         {
             return DaysPassed(date1,DateTime.Now);
         }
 
-        IEnumerable<BE.HostingUnit> IBL.AvailableInDates(DateTime date, int VacationLen)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IBL.DaysPassed(DateTime date1, DateTime date2)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IBL.DaysPassed(DateTime date1)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public IEnumerable<BE.Order> OrdersFromDays(int numOfDays)
         {
@@ -203,6 +154,41 @@ namespace BL
 
 
         IEnumerable<BE.Order> IBL.OrdersFromDays(int numOfDays)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<GuestRequest> GuestRequestRequirements(Delegate req)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int NumOfGuestOrders(GuestRequest gr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int NumOfHUClosedOrders(HostingUnit hu)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<GuestRequest> GroupGRByArea()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<GuestRequest> GroupByVactionNum()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Host> GroupByHUNum()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<HostingUnit> GroupHUByArea()
         {
             throw new NotImplementedException();
         }

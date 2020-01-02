@@ -42,5 +42,17 @@ namespace BE
             return guest;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != this.GetType())
+                return false;
+            else
+            {
+                GuestRequest other = (GuestRequest)obj;
+                if (other.GuestRequestKey == this.GuestRequestKey)
+                    return true;
+            }
+            return false;
+        }
     }
 }
