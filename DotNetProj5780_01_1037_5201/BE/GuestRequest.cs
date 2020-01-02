@@ -42,17 +42,33 @@ namespace BE
             return guest;
         }
 
+       
+
+        public override int GetHashCode()
+        {
+            var hashCode = 701007377;
+            hashCode = hashCode * -1521134295 + GuestRequestKey.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Guest>.Default.GetHashCode(GuestPersonalDetails);
+            hashCode = hashCode * -1521134295 + Status.GetHashCode();
+            hashCode = hashCode * -1521134295 + RegistrationDate.GetHashCode();
+            hashCode = hashCode * -1521134295 + EntryDate.GetHashCode();
+            hashCode = hashCode * -1521134295 + ReleaseDate.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<AreaTypes>>.Default.GetHashCode(Areas);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(SunbAreas);
+            hashCode = hashCode * -1521134295 + Type.GetHashCode();
+            hashCode = hashCode * -1521134295 + Adults.GetHashCode();
+            hashCode = hashCode * -1521134295 + Children.GetHashCode();
+            hashCode = hashCode * -1521134295 + Pool.GetHashCode();
+            hashCode = hashCode * -1521134295 + HotTub.GetHashCode();
+            hashCode = hashCode * -1521134295 + Garden.GetHashCode();
+            hashCode = hashCode * -1521134295 + ChildrenAttractions.GetHashCode();
+            return hashCode;
+        }
+
         public override bool Equals(object obj)
         {
-            if (obj.GetType() != this.GetType())
-                return false;
-            else
-            {
-                GuestRequest other = (GuestRequest)obj;
-                if (other.GuestRequestKey == this.GuestRequestKey)
-                    return true;
-            }
-            return false;
+            return obj is GuestRequest request &&
+                   GuestRequestKey == request.GuestRequestKey;
         }
     }
 }
