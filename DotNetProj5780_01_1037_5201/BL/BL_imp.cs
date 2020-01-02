@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BE;
 
 namespace BL
 {
@@ -128,16 +127,12 @@ namespace BL
 
         public int DaysPassed(DateTime date1, DateTime date2)
         {
-            int count = 0;
             if (date2 < date1)
             {
                 throw new BLExceptionDateIncorrect();
             }
-            for (DateTime date = date1; date < date2; date=date.AddDays(1))
-            {
-                count++;
-            }
-            return count;
+            //to check if return all days includes months etc
+            return date2.Date.Subtract(date1.Date).Days;
         }
         
         public int DaysPassed(DateTime date1)
@@ -149,48 +144,68 @@ namespace BL
 
         public IEnumerable<BE.Order> OrdersFromDays(int numOfDays)
         {
-            throw new NotImplementedException();
+            //creation Date previous to numOfDays ago
+            var orders=from ord in GetOrders() where ord.CreateDate.AddDays(numOfDays).Date < DateTime.Now.Date select ord;
+
+            return orders;
         }
 
 
-        IEnumerable<BE.Order> IBL.OrdersFromDays(int numOfDays)
+
+
+        public IEnumerable<BE.GuestRequest> GuestRequestRequirements(Func<BE.GuestRequest,bool> req)
         {
-            throw new NotImplementedException();
+            var requests = from gr in GetGuestRequests() where req(gr) select gr;
+
+            return requests;
         }
 
-        public IEnumerable<GuestRequest> GuestRequestRequirements(Delegate req)
+        public int NumOfGuestOrders(BE.GuestRequest gr)
         {
-            throw new NotImplementedException();
+            var orders = from ord in GetOrders() where ord.ItsGuestRequest.Equals(gr) select ord;
+            return orders.Count();
         }
 
-        public int NumOfGuestOrders(GuestRequest gr)
+        public int NumOfHostingUnits(BE.Host host)
         {
-            throw new NotImplementedException();
+            var HUs = from hu in GetHostingUnits() where hu.Owner.Equals(host) select hu;
+            return HUs.Count();
         }
 
-        public int NumOfHUClosedOrders(HostingUnit hu)
+        public int NumOfHUClosedOrders(BE.HostingUnit hu)
         {
-            throw new NotImplementedException();
+            var orders = from ord in GetOrders() where ord.ItsHostingUnit.Equals(hu) && ord.OrderStatus==BE.OrderStatusTypes.AnsweredClose select ord;
+            return orders.Count();
         }
 
-        public IEnumerable<GuestRequest> GroupGRByArea()
+        public IEnumerable<IEnumerable<BE.GuestRequest>> GroupGRByArea()
         {
-            throw new NotImplementedException();
+            var grs = from gr in GetGuestRequests() group gr by gr.Areas[0];
+
+            return grs;
         }
 
-        public IEnumerable<GuestRequest> GroupByVactionNum()
+        public IEnumerable<IEnumerable<BE.GuestRequest>> GroupByVactionNum()
         {
-            throw new NotImplementedException();
+            var grs = from gr in GetGuestRequests() group gr by NumOfGuestOrders(gr);
+
+            return grs;
         }
 
-        public IEnumerable<Host> GroupByHUNum()
+        public IEnumerable<IEnumerable<BE.Host>> GroupByHUNum()
         {
-            throw new NotImplementedException();
+            var hus = from hu in GetHostingUnits() group hu.Owner by hu.Owner;
+
+            var hosts = from owner in hus group owner.First() by owner.Count();
+
+            return hosts;
         }
 
-        public IEnumerable<HostingUnit> GroupHUByArea()
+        public IEnumerable<IEnumerable<BE.HostingUnit>> GroupHUByArea()
         {
-            throw new NotImplementedException();
+            var HUs = from hu in GetHostingUnits() group hu by hu.UnitAreaType;
+
+            return HUs;
         }
     }
 }
