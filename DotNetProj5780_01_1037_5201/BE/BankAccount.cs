@@ -12,12 +12,12 @@ namespace BE
         /// branch city
         /// the personal account number
         /// </summary>
-        public int BankNumber {private set; get; }
-        public string BankName { private set; get; }
-        public int BranchNumber { private set; get; }
-        public string BranchAddress { private set; get; }
-        public string BranchCity { private set; get; }
-        public int BankAccountNumber { private set; get; }
+        public int BankNumber { set; get; }
+        public string BankName {  set; get; }
+        public int BranchNumber {  set; get; }
+        public string BranchAddress {  set; get; }
+        public string BranchCity {  set; get; }
+        public int BankAccountNumber {  set; get; }
 
         public override string ToString()
         {

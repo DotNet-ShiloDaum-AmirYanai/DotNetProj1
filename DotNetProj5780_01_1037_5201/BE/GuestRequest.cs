@@ -19,20 +19,20 @@ namespace BE
         /// </summary>
         public int GuestRequestKey { set; get; }
         public double Totalcomission { set; get; }
-        public Guest GuestPersonalDetails { private set; get; }
+        public Guest GuestPersonalDetails {  set; get; }
         public DemandStatusTypes Status {  set; get; }
-        public DateTime RegistrationDate { private set; get; }
-        public DateTime EntryDate { private set; get; }
-        public DateTime ReleaseDate { private set; get; }
-        public List<AreaTypes> Areas { private set; get; }
-        public List<string> SunbAreas { private set; get; }
-        public HostingUnitTypes Type{private set; get;}
+        public DateTime RegistrationDate {  set; get; }
+        public DateTime EntryDate {  set; get; }
+        public DateTime ReleaseDate {  set; get; }
+        public List<AreaTypes> Areas {  set; get; }
+        public List<string> SunbAreas {  set; get; }
+        public HostingUnitTypes Type{ set; get;}
         public int Adults { set; get; }
         public int Children { set; get; }
-        public RequirementTypes Pool { private set; get; }
-        public RequirementTypes HotTub { private set; get; }
-        public RequirementTypes Garden { private set; get; }
-        public RequirementTypes ChildrenAttractions { private set; get; }
+        public RequirementTypes Pool {  set; get; }
+        public RequirementTypes HotTub {  set; get; }
+        public RequirementTypes Garden {  set; get; }
+        public RequirementTypes ChildrenAttractions {  set; get; }
 
         public override string ToString()
         {
