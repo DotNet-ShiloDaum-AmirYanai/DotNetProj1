@@ -109,17 +109,17 @@ namespace BL
         #region Order functions
         public void AddOrder(BE.Order O)
         {
-            BE.HostingUnit HU = DS.DataSource.DSHostingUnits.Find(t => t.HostingUnitKey == O.HostingUnitKey);
-            BE.GuestRequest GR = DS.DataSource.DSGuestRequests.Find(t => t.GuestRequestKey == O.GuestRequestKey);
+            int HUKey = DS.DataSource.DSHostingUnits.FindIndex(t => t.HostingUnitKey == O.HostingUnitKey);
+            if (HUKey < 0)
+                throw new BLExceptionHostingUnitDoesNotExist();
+            BE.HostingUnit HU = DS.DataSource.DSHostingUnits[HUKey];
+            int GRKey = DS.DataSource.DSGuestRequests.FindIndex(t => t.GuestRequestKey == O.GuestRequestKey);
+            if (GRKey < 0)
+                throw new BLExceptionGuestRequestDoesNotExist();
+            BE.GuestRequest GR = DS.DataSource.DSGuestRequests[GRKey];
 
-            for (int month = GR.EntryDate.Month; month <= GR.ReleaseDate.Month; month++)
-            {
-                for (int day = GR.EntryDate.Day; (day < 31) || (month == GR.ReleaseDate.Month && day > GR.ReleaseDate.Day); day++)
-                {
-                    if (HU.Calendar[month, day] != false)
-                        throw new BLExceptionTheOrderDateAreOccupied();
-                }
-            }
+            if (!HU.Available(GR.EntryDate, GR.ReleaseDate))
+                throw new BLExceptionTheOrderDateAreOccupied();
 
         }
 
@@ -152,14 +152,11 @@ namespace BL
 
                     double fee = days * BE.Configuration.Fee;
                     GR.Totalcomission = fee;
+                    
+                    if (!HU.Available(GR.EntryDate, GR.ReleaseDate))
+                        throw new BLExceptionTheOrderDateAreOccupied();
 
-                    for (int month = GR.EntryDate.Month; month <= GR.ReleaseDate.Month; month++)
-                    {
-                        for (int day = GR.EntryDate.Day; (day < 31) || (month == GR.ReleaseDate.Month && day > GR.ReleaseDate.Day); day++)
-                        {
-                            HU.Calendar[month, day] = true;
-                        }
-                    }
+                    HU.FillDates(GR.EntryDate, GR.ReleaseDate);
 
                     UpdateGuestRequest(BE.DemandStatusTypes.DealClosed, GR.GuestRequestKey);
                 }

@@ -54,10 +54,14 @@ namespace BL
     {
         public BLExceptionTheEmailIsInvalid() { }
     }
+    public class BLExceptionGuestRequestDoesNotExist : BLException
+    {
+        public BLExceptionGuestRequestDoesNotExist() { }
+    }
 
 
-    
 }
+
 
 
 
