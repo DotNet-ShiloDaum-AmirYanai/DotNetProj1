@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\אמיר\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj": {}
+    "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj": {}
   },
   "projects": {
-    "C:\\Users\\אמיר\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj": {
+    "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\אמיר\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj",
+        "projectUniqueName": "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj",
         "projectName": "BE",
-        "projectPath": "C:\\Users\\אמיר\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj",
-        "packagesPath": "C:\\Users\\אמיר\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\אמיר\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\obj\\",
+        "projectPath": "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\BE.csproj",
+        "packagesPath": "C:\\Users\\shilo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\shilo\\Documents\\GitHub\\DotNetProj1\\DotNetProj5780_01_1037_5201\\BE\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\אמיר\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\shilo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
