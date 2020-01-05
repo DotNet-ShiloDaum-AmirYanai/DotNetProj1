@@ -211,8 +211,6 @@ namespace BL
             return DaysPassed(date1,DateTime.Now);
         }
 
-       
-
         public IEnumerable<BE.Order> OrdersFromDays(int numOfDays)
         {
             //creation Date previous to numOfDays ago
@@ -220,9 +218,6 @@ namespace BL
 
             return orders;
         }
-
-
-
 
         public IEnumerable<BE.GuestRequest> GuestRequestRequirements(Func<BE.GuestRequest,bool> req)
         {
