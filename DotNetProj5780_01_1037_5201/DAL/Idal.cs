@@ -48,11 +48,11 @@ namespace DAL
         void AddOrder(BE.Order O);
 
         /// <summary>
-        /// update an order usually the order status is updated
+        /// update an order- the order status is updated
         /// </summary>
         /// <param name="O">order</param>
         void UpdateOrder(OrderStatusTypes status, int key);
-
+       
 
 
         //get data

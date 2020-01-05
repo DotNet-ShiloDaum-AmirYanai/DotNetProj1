@@ -6,3 +6,11 @@ C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\bin\D
 C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\bin\Debug\netstandard2.0\BE.pdb
 C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\obj\Debug\netstandard2.0\BE.dll
 C:\Users\shilo\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\obj\Debug\netstandard2.0\BE.pdb
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\bin\Debug\netstandard2.0\BE.deps.json
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\bin\Debug\netstandard2.0\BE.dll
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\bin\Debug\netstandard2.0\BE.pdb
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\obj\Debug\netstandard2.0\BE.csprojAssemblyReference.cache
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\obj\Debug\netstandard2.0\BE.AssemblyInfoInputs.cache
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\obj\Debug\netstandard2.0\BE.AssemblyInfo.cs
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\obj\Debug\netstandard2.0\BE.dll
+C:\Users\אמיר\Documents\GitHub\DotNetProj1\DotNetProj5780_01_1037_5201\BE\obj\Debug\netstandard2.0\BE.pdb

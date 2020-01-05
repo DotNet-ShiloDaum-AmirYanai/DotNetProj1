@@ -49,16 +49,6 @@ namespace BL
         }
         #endregion
 
-        private bool ValidateEmail(string emailAddress)
-        {
-            var regex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*" + "@"
-                             + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
-
-            bool isValid = Regex.IsMatch(emailAddress, regex, RegexOptions.IgnoreCase);
-            return isValid;
-        }
-
-
         #region Hosting unit functions
         public void AddHostingUnit(BE.HostingUnit HU)
         {
@@ -92,7 +82,6 @@ namespace BL
 
         public void UpdateHostingUnit(BE.HostingUnit HU)
         {
-
             try
             {
                 dal.UpdateHostingUnit(HU);
@@ -118,7 +107,7 @@ namespace BL
                 throw new BLExceptionGuestRequestDoesNotExist();
             BE.GuestRequest GR = DS.DataSource.DSGuestRequests[GRKey];
 
-            if (!HU.Available(GR.EntryDate, GR.ReleaseDate))
+            if (!Available(GR.EntryDate, GR.ReleaseDate, HU))
                 throw new BLExceptionTheOrderDateAreOccupied();
 
         }
@@ -153,10 +142,10 @@ namespace BL
                     double fee = days * BE.Configuration.Fee;
                     GR.Totalcomission = fee;
                     
-                    if (!HU.Available(GR.EntryDate, GR.ReleaseDate))
+                    if (!Available(GR.EntryDate, GR.ReleaseDate, HU))
                         throw new BLExceptionTheOrderDateAreOccupied();
 
-                    HU.FillDates(GR.EntryDate, GR.ReleaseDate);
+                    FillDates(GR.EntryDate, GR.ReleaseDate, HU);
 
                     UpdateGuestRequest(BE.DemandStatusTypes.DealClosed, GR.GuestRequestKey);
                 }
@@ -168,7 +157,7 @@ namespace BL
 
         #endregion
 
-        //getters
+        #region getters
         public IEnumerable<BE.HostingUnit> GetHostingUnits()
         {
             return Dal.GetHostingUnits();
@@ -185,12 +174,13 @@ namespace BL
         {
             return Dal.GetBankBranches();
         }
+        #endregion
 
 
         public IEnumerable<BE.HostingUnit> AvailableInDates(DateTime date, int len)
         {
             var availables = from HU in GetHostingUnits()
-            where HU.Available(date,len)
+            where Available(date,len, HU)
             select HU;
 
             return availables;
@@ -244,6 +234,8 @@ namespace BL
             return orders.Count();
         }
 
+
+        #region groups function
         public IEnumerable<IEnumerable<BE.GuestRequest>> GroupGRByArea()
         {
             var grs = from gr in GetGuestRequests() group gr by gr.Areas[0];
@@ -273,5 +265,54 @@ namespace BL
 
             return HUs;
         }
+
+        #endregion
+
+        #region help function
+
+        public bool Available(DateTime start, int len, BE.HostingUnit HU)
+        {
+            DateTime end = start.AddDays(len);
+            return Available(start, end, HU);
+        }
+
+        public bool Available(DateTime start, DateTime end, BE.HostingUnit HU)
+        {
+            bool available = true;
+            for (DateTime d = start; d < end; d = d.AddDays(1))
+            {
+                if (HU.Calendar[d.Month, d.Day])
+                {
+                    available = false;
+                    break;
+                }
+            }
+            return available;
+        }
+
+        public void FillDates(DateTime start, int len, BE.HostingUnit HU)
+        {
+            DateTime end = start.AddDays(len);
+            FillDates(start, end, HU);
+        }
+
+        public void FillDates(DateTime start, DateTime end, BE.HostingUnit HU)
+        {
+            for (DateTime d = start; d < end; d = d.AddDays(1))
+            {
+                HU.Calendar[d.Month, d.Day] = true;
+            }
+        }
+
+        private bool ValidateEmail(string emailAddress)
+        {
+            var regex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*" + "@"
+                             + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+
+            bool isValid = Regex.IsMatch(emailAddress, regex, RegexOptions.IgnoreCase);
+            return isValid;
+        }
+
+        #endregion
     }
 }

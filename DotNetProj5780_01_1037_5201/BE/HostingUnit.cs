@@ -23,59 +23,6 @@ namespace BE
         public AreaTypes UnitAreaType { private set; get; } = AreaTypes.other;
 
 
-        public HostingUnit()
-        {
-            HostingUnitKey = GetNextKey();
-            OwnerName = "John Doe";
-            for (int i = 0; i < 12; i++)
-            {
-                for (int j = 0; j < 31; j++)
-                {
-                    Calendar[i, j] = false;
-                }
-            }
-        }
-
-        public static int GetNextKey()
-        {
-            int key = ++RunningHostingUnitKey;
-            return key;
-        }
-
-        public bool Available(DateTime start, int len) 
-        {
-            DateTime end = start.AddDays(len);
-            return Available(start,end);
-        }
-
-        public bool Available(DateTime start, DateTime end)
-        {
-            bool available = true;
-            for (DateTime d = start; d < end; d = d.AddDays(1))
-            {
-                if (Calendar[d.Month, d.Day])
-                {
-                    available = false;
-                    break;
-                }
-            }
-            return available;
-        }
-
-        public void FillDates(DateTime start, int len)
-        {
-            DateTime end = start.AddDays(len);
-            FillDates(start, end);
-        }
-
-        public void FillDates(DateTime start, DateTime end)
-        {
-            for (DateTime d = start; d < end; d = d.AddDays(1))
-            {
-                Calendar[d.Month, d.Day] = true;
-            }
-        }
-
         public override string ToString()
         {
             string hostingUnit = "";

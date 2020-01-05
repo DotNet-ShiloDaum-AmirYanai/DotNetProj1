@@ -46,6 +46,10 @@ namespace DAL
         #region HostingUnit Unit function
         public void AddHostingUnit(BE.HostingUnit HU)
         {
+            var v= from HostUnit in DS.DataSource.DSHostingUnits select new { HostKey = HostUnit.Owner.AccountNumber };
+            if (v.Count(HK => HK.HostKey == HU.Owner.AccountNumber) > 0)
+                throw new DALExceptionIdalreadyExist();
+
             if (HU.HostingUnitKey != 0)
             {
                 if (!HUValidate(HU))
@@ -109,6 +113,7 @@ namespace DAL
 
         }
         #endregion
+
 
         #region gets functions
         public IEnumerable<string> GetBankBranches()
