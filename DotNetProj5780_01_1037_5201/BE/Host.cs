@@ -15,14 +15,14 @@ namespace BE
         /// Bank accoount number
         /// is the bank account reeady to use
         /// </summary>
-        public int HostKey { private set; get; }
-        public string FirstName { private set; get; }
-        public string LastName { private set; get; }
-        public string PhoneNumber { private set; get; }
-        public string Email { private set; get; }
-        public BankAccount BankBranchDetails { private set; get; }
-        public int AccountNumber { private set; get; }
-        public bool CollectionClearance { private set; get; }
+        public int HostKey {  set; get; }
+        public string FirstName {  set; get; }
+        public string LastName {  set; get; }
+        public string PhoneNumber {  set; get; }
+        public string Email {  set; get; }
+        public BankAccount BankBranchDetails {  set; get; }
+        public int AccountNumber {  set; get; }
+        public bool CollectionClearance {  set; get; }
 
         public override string ToString()
         {

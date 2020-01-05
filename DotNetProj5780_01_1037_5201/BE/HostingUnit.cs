@@ -16,11 +16,11 @@ namespace BE
         /// </summary>
         public int HostingUnitKey { set; get; }
         public static int RunningHostingUnitKey { set; get; } = 10000000;
-        public Host Owner { private set; get; }
-        public string OwnerName { private set; get; }
-        public bool[,] Calendar { private set; get; } = new bool[12, 31];
-        public HostingUnitTypes UnitType { private set; get; } = HostingUnitTypes.other;
-        public AreaTypes UnitAreaType { private set; get; } = AreaTypes.other;
+        public Host Owner {  set; get; }
+        public string OwnerName {  set; get; }
+        public bool[,] Calendar {  set; get; } = new bool[12, 31];
+        public HostingUnitTypes UnitType {  set; get; } = HostingUnitTypes.other;
+        public AreaTypes UnitAreaType {  set; get; } = AreaTypes.other;
 
 
         public override string ToString()

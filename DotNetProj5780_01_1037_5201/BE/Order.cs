@@ -16,15 +16,15 @@ namespace BE
         /// date of the creation of the order
         /// date of the email that was sent to user
         /// </summary>
-        public int HostingUnitKey { private set; get; }
+        public int HostingUnitKey {  set; get; }
         //?
-        public HostingUnit ItsHostingUnit { private set; get; }
-        public int GuestRequestKey { private set; get; }
-        public GuestRequest ItsGuestRequest { private set; get; }
-        public int OrderKey { private set; get; }
+        public HostingUnit ItsHostingUnit {  set; get; }
+        public int GuestRequestKey {  set; get; }
+        public GuestRequest ItsGuestRequest {  set; get; }
+        public int OrderKey {  set; get; }
         public OrderStatusTypes OrderStatus { set; get; }
-        public DateTime CreateDate { private set; get; }
-        public DateTime CreateOrderDate { private set; get; }
+        public DateTime CreateDate {  set; get; }
+        public DateTime CreateOrderDate {  set; get; }
         public override string ToString()
         {
             string order = "";
