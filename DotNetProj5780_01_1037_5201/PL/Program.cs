@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PL
 {
@@ -6,17 +7,45 @@ namespace PL
     {
         static void Main(string[] args)
         {
+            BE.Guest Aaron = new BE.Guest
+            {
+                FirstName = "Aaron",
+                LastName = "Russell",
+                ID = 325647896,
+                Email = "aaronrussell613@gmail.com"
+            };
 
-            BE.Guest G = new BE.Guest();
+            BE.GuestRequest GR1 = new BE.GuestRequest
+            {
+                GuestRequestKey = 10000010,
+                Totalcomission = 0,
+                GuestPersonalDetails = Aaron,
+                Status = BE.DemandStatusTypes.Open,
+                RegistrationDate = new DateTime(2020, 4, 10),
+                EntryDate = new DateTime(2020, 5, 15),
+                ReleaseDate = new DateTime(2020, 6, 20),
+                Areas = new List<BE.AreaTypes>() { BE.AreaTypes.North, BE.AreaTypes.Center },x
+                SunbAreas = new List<String>("Ranana");
+                HostingUnitTypes Type
+                int Adults { set; get; }
+                int Children { set; get; }
+                RequirementTypes Pool { set; get; }
+                RequirementTypes HotTub { set; get; }
+                RequirementTypes Garden { set; get; }
+                RequirementTypes ChildrenAttractions { set; get; }
+    }
+           
             BE.Host H = new BE.Host();
             BE.HostingUnit HU=new BE.HostingUnit();
-            BE.GuestRequest GR = new BE.GuestRequest();
+            
+
             BE.Order O = new BE.Order();
             
 
             BL.BL_imp bl;
 
             bl.AddGuestRequest();
+            bl.UpdateGuestRequest(BE.DemandStatusTypes status, int key);
 
 
             Console.WriteLine("aaaaaaaaaaa working ok");
