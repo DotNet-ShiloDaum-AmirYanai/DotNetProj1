@@ -15,7 +15,7 @@ namespace BE
         /// unit's area
         /// </summary>
         public int HostingUnitKey { set; get; }
-        public static int RunningHostingUnitKey { set; get; } = 10000000;
+
         public Host Owner {  set; get; }
         public string OwnerName {  set; get; }
         public bool[,] Calendar {  set; get; } = new bool[12, 31];
