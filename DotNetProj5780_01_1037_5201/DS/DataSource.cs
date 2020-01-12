@@ -7,14 +7,48 @@ namespace DS
     //store al data source
     public static class DataSource
     {
-        public static List<BE.GuestRequest> DSGuestRequests { set; get; }
+        public static List<BE.GuestRequest> DSGuestRequests;
         public static List<BE.Order> DSOrders { set; get; }
         public static List<BE.HostingUnit> DSHostingUnits { set; get; }
 
+
         static DataSource()
         {
+
             #region start GuestRequests
 
+            DSGuestRequests = new List<BE.GuestRequest>();
+            DSHostingUnits = new List<BE.HostingUnit>();
+            DSOrders = new List<BE.Order>();
+            BE.Guest Guest1 = new BE.Guest
+            {
+                FirstName = "Amir",
+                LastName = "Yanai",
+                ID = 666995201,
+                Email = "AM@gmail.com",
+            };
+
+            BE.GuestRequest GR1 = new BE.GuestRequest
+            {
+                GuestRequestKey = 11111111,
+                Totalcomission = 0,
+                GuestPersonalDetails = Guest1,
+                Status = BE.DemandStatusTypes.Open,
+                RegistrationDate = new DateTime(2020, 1, 1),
+                EntryDate = new DateTime(2020, 3, 16),
+                ReleaseDate = new DateTime(2020, 4, 25),
+                Areas = new List<BE.AreaTypes>() { BE.AreaTypes.Jerusalem, BE.AreaTypes.North },
+                SunbAreas = new List<String>() {"Maale Edomim", "Modiin" },
+                Type = BE.HostingUnitTypes.BoardingHouse,
+                Adults = 1,
+                Children = 5,
+                Pool = BE.RequirementTypes.Yes,
+                HotTub = BE.RequirementTypes.No,
+                Garden = BE.RequirementTypes.Yes,
+                ChildrenAttractions = BE.RequirementTypes.No
+            };
+
+            DSGuestRequests.Add(GR1);
             #endregion
 
             #region start Orders

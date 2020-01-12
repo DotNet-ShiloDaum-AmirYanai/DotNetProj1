@@ -24,16 +24,16 @@ namespace PL
                 RegistrationDate = new DateTime(2020, 4, 10),
                 EntryDate = new DateTime(2020, 5, 15),
                 ReleaseDate = new DateTime(2020, 6, 20),
-                Areas = new List<BE.AreaTypes>() { BE.AreaTypes.North, BE.AreaTypes.Center },x
-                SunbAreas = new List<String>("Ranana");
-                HostingUnitTypes Type
-                int Adults { set; get; }
-                int Children { set; get; }
-                RequirementTypes Pool { set; get; }
-                RequirementTypes HotTub { set; get; }
-                RequirementTypes Garden { set; get; }
-                RequirementTypes ChildrenAttractions { set; get; }
-    }
+                Areas = new List<BE.AreaTypes>() { BE.AreaTypes.North, BE.AreaTypes.Center },
+                SunbAreas = new List<String>() { "Ranana", "Modiin" },
+                Type = BE.HostingUnitTypes.HotelRoom,
+                Adults = 3,
+                Children = 4,
+                Pool = BE.RequirementTypes.No,
+                HotTub = BE.RequirementTypes.Yes,
+                Garden = BE.RequirementTypes.Yes,
+                ChildrenAttractions = BE.RequirementTypes.Yes
+            };
            
             BE.Host H = new BE.Host();
             BE.HostingUnit HU=new BE.HostingUnit();
@@ -42,10 +42,10 @@ namespace PL
             BE.Order O = new BE.Order();
             
 
-            BL.BL_imp bl;
+            BL.BL_imp bl= new BL.BL_imp();
 
-            bl.AddGuestRequest();
-            bl.UpdateGuestRequest(BE.DemandStatusTypes status, int key);
+            bl.AddGuestRequest(GR1);
+            bl.UpdateGuestRequest(BE.DemandStatusTypes.Expired, 10000010);
 
 
             Console.WriteLine("aaaaaaaaaaa working ok");

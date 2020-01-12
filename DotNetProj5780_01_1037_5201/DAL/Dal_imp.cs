@@ -19,8 +19,8 @@ namespace DAL
         {
             if (GR.GuestRequestKey != 0)
             {
-                if (!GuestValidate(GR))
-                    throw new DALExceptionIdalreadyExist();
+               if (!GuestValidate(GR))
+                   throw new DALExceptionIdalreadyExist();
             }
             else
             {
@@ -150,6 +150,8 @@ namespace DAL
         #region help function
         private bool GuestValidate(BE.GuestRequest GR)
         {
+            if (DS.DataSource.DSGuestRequests.Count()>0)
+                return true;
             bool exists = false;
             foreach (BE.GuestRequest item in DS.DataSource.DSGuestRequests)
             {

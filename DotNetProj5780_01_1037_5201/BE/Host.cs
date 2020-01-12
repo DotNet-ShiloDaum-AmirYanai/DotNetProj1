@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BE
 {
+    [Serializable]
     public class Host
     {
         /// <summary>
